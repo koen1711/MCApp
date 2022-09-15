@@ -1,5 +1,7 @@
-from os import kill
-from turtle import back
+
+from json import load
+from math import gamma
+from types import NoneType
 import pygame
 import pygame_gui
 from pygame_gui.core import ObjectID
@@ -35,36 +37,26 @@ curgame = None
 
 screen_mask = pygame.mask.from_threshold(window_surface,(255,255,255),(1,1,1))
 
+reverse_btn = None
+text = None
+gameui = None
+loading_screen = None
+timer = None
+timer_text = None
+window = None
+mm = None
+e = Handler()
 
 while is_running:
     time_delta = clock.tick(60)/1000.0
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            is_running = False
-        
-
-        # if play_btn is clicked, then start the game
-        if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            if event.ui_element == play_btn:
-                curgame = Game(pygame, pygame_gui, all_sprites_list, background, manager, play_btn, window_surface)
-                background = curgame.bg
-                # create track
-                track = Track(pygame, background, curgame.player, background)
-                curgame.track = track
-            if event.ui_element == back_btn:
-                play_btn = curgame.end_game()
-                curgame = None
-                background = pygame.transform.scale(pygame.image.load("background.png"), (x, y))
-                play_btn.kill()
-                mm.play_btn.kill()
-                mm = MainMenu(manager, window_surface)
-                play_btn = mm.play_btn
-                
-
-        manager.process_events(event)
-
     window_surface.blit(background, (0, 0))
+
+    for event in pygame.event.get():
+        x, y = pygame.display.get_surface().get_size()
+        curgame, play_btn, back_btn, reverse_btn, text, gameui, loading_screen, background, manager, all_sprites_list, is_running = e.EventHandler(pygame_gui, event, curgame, play_btn, back_btn, reverse_btn, text, gameui, loading_screen, x, y, window_surface, background, manager, all_sprites_list, is_running)
+
+    # check if 
+
     manager.update(time_delta)
     all_sprites_list.update()
     all_sprites_list.draw(window_surface)
@@ -75,24 +67,49 @@ while is_running:
         background = pygame.transform.scale(background, (x, y))
         window_surface = pygame.display.set_mode((x, y), pygame.RESIZABLE)
         
-        mm.resize(play_btn, x, y, curwindowx, curwindowy)
-        mm.resize(back_btn, x, y, curwindowx, curwindowy)
+        if loading_screen is not None:
+            loading_screen.resize(window, x, y, curwindowx, curwindowy)
+        if gameui is not None:
+            gameui.resize(reverse_btn,x, y, curwindowx, curwindowy)
+            gameui.resize(text,x, y, curwindowx, curwindowy)
+            curgame.player.resize(x, y, curwindowx, curwindowy)
+            curgame.track.resize(window_surface, x, y, curwindowx, curwindowy)
+            if timer != None:
+                timer.resize(timer.timer_text, x, y, curwindowx, curwindowy)
+
+        else:
+            mm.resize(play_btn, x, y, curwindowx, curwindowy)
+            mm.resize(back_btn, x, y, curwindowx, curwindowy)
         curwindowx = x
         curwindowy = y
-
-    if curgame is not None:
-        x1 = curgame.player.rect.x
-        y1 = curgame.player.rect.y
-        if screen_mask.overlap(curgame.player.mask,(curgame.player.rect.x,curgame.player.rect.y)):
-            play_btn = curgame.end_game()
-            curgame = None
-            is_running = False
-        if curgame is not None:
-            curgame.handle_event(pygame.key.get_pressed())
-            if curgame.game_ended:
-                play_btn = curgame.play_btn
-                background = curgame.bg
+    
+    if curgame is not None or not NoneType:
+        if curgame.player is not None or not NoneType:
+            if loading_screen is not None:
+                timer = Time(manager, window_surface)
+                timer_text = timer.timer_text
+                loading_screen.uiwindow.kill()
+                loading_screen = None
+            x1 = curgame.player.rect.x
+            y1 = curgame.player.rect.y
+            if screen_mask.overlap(curgame.player.mask,(curgame.player.rect.x,curgame.player.rect.y)):
+                play_btn = curgame.end_game()
                 curgame = None
+                is_running = False
+            if curgame is not None:
+                curgame.handle_event(pygame.key.get_pressed())
+                if curgame.game_ended:
+                    play_btn = curgame.play_btn
+                    background = curgame.bg
+                    reverse_btn.kill()
+                    text.kill()
+                    gameui.reverse_btn.kill()
+                    gameui.engine_status_text.kill()
+                    curgame = None
+                    gameui = None
+                    
     manager.draw_ui(window_surface)
 
     pygame.display.update()
+    if timer != None:
+        timer.change_time(time_delta)
