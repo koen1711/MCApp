@@ -1,4 +1,5 @@
 import math
+from turtle import back
 import pygame
 
 class CarSprite( pygame.sprite.Sprite ):
@@ -16,8 +17,8 @@ class CarSprite( pygame.sprite.Sprite ):
         self.rot_img   = []
         self.min_angle = ( 360 / rotations ) 
         x2, y2 = ws.get_size()
-        x2 = x2 / 60
-        y2 = y2 / 60
+        x2 = x2 / 40
+        y2 = y2 / 40
         for i in range( rotations ):
             # This rotation has to match the angle in radians later
             # So offet the angle (0 degrees = "north") by 90° to be angled 0-radians (so 0 rad is "east")
@@ -40,13 +41,12 @@ class CarSprite( pygame.sprite.Sprite ):
         self.position  = pygame.math.Vector2( x, y )
         self.scar = cla("Car")
         
-        self.mask = pygame.mask.from_threshold(background,(0,0,0),(1,1,1))
+        self.mask = pygame.mask.from_threshold(background,(1,1,1, 255),(0,0,0,255))
         self.basic_turn()
 
-    def basic_turn(self):
+    def basic_turn(self, angle_degrees=180):
         """ Turn the car around when game initiated """	
-        angle_degrees = 180
-        self.heading += math.radians( angle_degrees ) 
+        self.heading = math.radians( angle_degrees ) 
         # Decide which is the correct image to display
         image_index = int( self.heading / self.min_angle ) % len( self.rot_img )
         # Only update the image if it's changed
@@ -113,13 +113,13 @@ class CarSprite( pygame.sprite.Sprite ):
 
     def check_out_of_bounds(self, game, pg):
         if self.rect.x < 0:
-            game.end_game()
+            game.respawn()
         if self.rect.x > pg.get_width():
-            game.end_game()
+            game.respawn()
         if self.rect.y < 0:
-            game.end_game()
+            game.respawn()
         if self.rect.y > pg.get_height():
-            game.end_game()
+            game.respawn()
     def resize(self, x, y, curwindowx, curwindowy):
         for i in range(len(self.rot_img)):
             self.rot_img[i] = pygame.transform.scale(self.rot_img[i], (x/60, y/60))
@@ -140,7 +140,21 @@ class CarSprite( pygame.sprite.Sprite ):
             return True
         else:
             return False
-       
+    def reset(self, x, y, angle):
+        print("end game")
+        self.rect.center = (x, y)
+        self.position = pygame.math.Vector2(x, y)
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = 0
+        self.velocity = pygame.math.Vector2(0, 0)
+        self.heading = 0
+        print(angle)
+        self.basic_turn(angle)
+        self.update()
+
+
+        
 
 
         

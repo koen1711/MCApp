@@ -1,0 +1,79 @@
+{
+    "cars": {
+        "1": {
+            "Year": "",
+            "unlocked": true,
+            "track": "track1"
+        },
+        "2": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track1"
+        },
+        "3": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track2"
+        },
+        "4": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track2"
+        },
+        "5": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "6": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "7": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "8": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "9": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "10": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "11": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "12": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "13": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "14": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        },
+        "15": {
+            "Year": "",
+            "unlocked": false,
+            "track": "track3"
+        }
+    }
+}

@@ -1,11 +1,9 @@
 
-from json import load
-from math import gamma
+
 from types import NoneType
 import pygame
 import pygame_gui
 from pygame_gui.core import ObjectID
-from pygame_gui.elements import UIButton
 from Utils import *
 
 pygame.init()
@@ -35,7 +33,6 @@ is_running = True
 
 curgame = None
 
-screen_mask = pygame.mask.from_threshold(window_surface,(255,255,255),(1,1,1))
 
 reverse_btn = None
 text = None
@@ -44,22 +41,45 @@ loading_screen = None
 timer = None
 timer_text = None
 window = None
-mm = None
+cc = ChooseCar(manager, window_surface)
+cc.appear()
 e = Handler()
+
+
 
 while is_running:
     time_delta = clock.tick(60)/1000.0
     window_surface.blit(background, (0, 0))
 
     for event in pygame.event.get():
+        curgame1 = curgame
         x, y = pygame.display.get_surface().get_size()
-        curgame, play_btn, back_btn, reverse_btn, text, gameui, loading_screen, background, manager, all_sprites_list, is_running = e.EventHandler(pygame_gui, event, curgame, play_btn, back_btn, reverse_btn, text, gameui, loading_screen, x, y, window_surface, background, manager, all_sprites_list, is_running)
+        curgame, play_btn, back_btn, reverse_btn, text, gameui, loading_screen, background, manager, all_sprites_list, is_running, mm = e.EventHandler(pygame_gui, event, curgame, play_btn, back_btn, reverse_btn, text, gameui, loading_screen, x, y, window_surface, background, manager, all_sprites_list, is_running, mm)
+        if curgame is None and curgame1 is not None:
+            # kill all sprites
+            for sprite in all_sprites_list:
+                
+                sprite.kill()
 
+            # kill all ui elements
+            for element in manager.get_root_container().elements:
+                # check if it is not back_btn or play_btns
+                if element != back_btn and element != play_btn:
+                    element.kill()
+            gameui = None
+            
+            timer_text.kill()
+            text = None
+            reverse_btn = None
+            loading_screen = None
+            timer = None
+            timer_text = None
+                
+                
+        curgame1 = curgame
     # check if 
-
-    manager.update(time_delta)
-    all_sprites_list.update()
-    all_sprites_list.draw(window_surface)
+    manager, all_sprites_list, window_surface=e.BaseUpdates(manager, time_delta, all_sprites_list, window_surface, curgame)
+    
     x = window_surface.get_width()
     y = window_surface.get_height()
     if x != curwindowx or y != curwindowy:
@@ -92,10 +112,14 @@ while is_running:
                 loading_screen = None
             x1 = curgame.player.rect.x
             y1 = curgame.player.rect.y
-            if screen_mask.overlap(curgame.player.mask,(curgame.player.rect.x,curgame.player.rect.y)):
-                play_btn = curgame.end_game()
-                curgame = None
-                is_running = False
+            try:
+                if background.get_at(curgame.player.rect.center) == (0, 0, 0, 255):
+                    play_btn = curgame.respawn()
+                    
+                    #curgame = None
+                    #is_running = False
+            except:
+                pass
             if curgame is not None:
                 curgame.handle_event(pygame.key.get_pressed())
                 if curgame.game_ended:
@@ -113,3 +137,4 @@ while is_running:
     pygame.display.update()
     if timer != None:
         timer.change_time(time_delta)
+    

@@ -19,7 +19,7 @@ class Game:
         self.time = 0
         self.track = None
         self.lapsrequired = 3
-        self.laps = 0
+        self.laps = 1
         self.laptime = []
         self.bestlap = 0
         self.bestlaptime = 0
@@ -46,6 +46,17 @@ class Game:
         
 
     def end_game(self):
+        return
+        
+        # destroy all sprites
+        for sprite in self.all_sprites_list:
+            sprite.kill()
+        # destroy all ui elements
+        for element in self.manager.get_root_container().elements:
+            # except back button and play button
+            if element.object_ids != ObjectID("back_btn", "ui") and element.object_ids != ObjectID("play_btn", "ui"):
+                element.kill()
+
         img = self.pygame.image.load("background.png")
         self.background.blit(img, (0, 0))
         play_btn = self.pygame_gui.elements.UIButton(relative_rect=self.pygame.Rect((250, 275), (300, 50)),text='Play',manager=self.manager,
@@ -56,7 +67,24 @@ class Game:
         self.game_ended = True
         self.play_btn = play_btn
         self.bg = img
+        
+
+
         return play_btn
+    def respawn(self):
+        
+
+        if len(self.track.lap.checkpoints_hit) == 0:
+            
+            x = self.track.start_finish.rect.center[0]
+            y = self.track.start_finish.rect.center[1]
+            print("respawn")
+            print(self.track.start_finish.angle)
+            self.player.reset(x, y, self.track.start_finish.angle)
+        else:
+            x = self.track.lap.checkpoints_hit[-1].rect.center[0]
+            y = self.track.lap.checkpoints_hit[-1].rect.center[1]
+            self.player.reset(x, y, self.track.lap.checkpoints_hit[-1].angle)
     def handle_event(self, keys):
         pygame = self.pygame
         player = self.player

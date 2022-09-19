@@ -93,11 +93,11 @@
     {
         "colours":
         {
-            "normal_bg":"#848786",
-            "hovered_bg":"#848786",
-            "disabled_bg":"#a010e8",
-            "selected_bg":"#e89910",
-            "dark_bg":"#1ad6bd",
+            "normal_bg":"#132ccf",
+            "hovered_bg":"#f7340c",
+            "disabled_bg":"#ff0000",
+            "selected_bg":"#ff7300",
+            "dark_bg":"#000000",
             "normal_text":"#f2f5f3",
             "hovered_text":"#f2f5f3",
             "selected_text":"#f4f2fa",
@@ -122,11 +122,11 @@
             "italic": "0",
             "regular_resource": {
                 "package": "Fonts",
-                "resource": "ARIAL.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "bold_resource": {
                 "package": "Fonts",
-                "resource": "ARIALBD.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "italic_resource": {
                 "package": "Fonts",
@@ -183,11 +183,11 @@
     {
         "colours":
         {
-            "normal_bg":"#e8092e",
-            "hovered_bg":"#79e810",
+            "normal_bg":"#ff7300",
+            "hovered_bg":"#ff00d4",
             "disabled_bg":"#a010e8",
             "selected_bg":"#e89910",
-            "dark_bg":"#1ad6bd",
+            "dark_bg":"#050505",
             "normal_text":"#f2f5f3",
             "hovered_text":"#f4f2fa",
             "selected_text":"#f4f2fa",
@@ -212,11 +212,11 @@
             "italic": "1",
             "regular_resource": {
                 "package": "Fonts",
-                "resource": "ARIAL.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "bold_resource": {
                 "package": "Fonts",
-                "resource": "ARIALBD.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "italic_resource": {
                 "package": "Fonts",
@@ -273,8 +273,8 @@
     {
         "colours":
         {
-            "normal_bg":"#e8092e",
-            "hovered_bg":"#79e810",
+            "normal_bg":"#243dff",
+            "hovered_bg":"#0cf0e4",
             "disabled_bg":"#a010e8",
             "selected_bg":"#e89910",
             "dark_bg":"#1ad6bd",
@@ -364,7 +364,7 @@
         "colours":
         {
             "normal_bg":"#e8092e",
-            "hovered_bg":"#79e810",
+            "hovered_bg":"#a82f3d",
             "disabled_bg":"#a010e8",
             "selected_bg":"#e89910",
             "dark_bg":"#1ad6bd",
@@ -392,11 +392,11 @@
             "italic": "1",
             "regular_resource": {
                 "package": "Fonts",
-                "resource": "ARIAL.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "bold_resource": {
                 "package": "Fonts",
-                "resource": "ARIALBD.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "italic_resource": {
                 "package": "Fonts",
@@ -453,8 +453,8 @@
     {
         "colours":
         {
-            "normal_bg":"#e8092e",
-            "hovered_bg":"#79e810",
+            "normal_bg":"#0cf01b",
+            "hovered_bg":"#f0e40c",
             "disabled_bg":"#a010e8",
             "selected_bg":"#e89910",
             "dark_bg":"#1ad6bd",
@@ -482,11 +482,11 @@
             "italic": "1",
             "regular_resource": {
                 "package": "Fonts",
-                "resource": "ARIAL.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "bold_resource": {
                 "package": "Fonts",
-                "resource": "ARIALBD.TTF"
+                "resource": "ARIALBLACKITALIC.TTF"
             },
             "italic_resource": {
                 "package": "Fonts",
