@@ -1,3 +1,4 @@
+from threading import Thread
 from .OtherSprites import *
 
 class Track:
@@ -22,10 +23,12 @@ class Track:
         self.lap.draw()
 
     def resize(self, sur, x, y, oldwinx, oldwiny):
-        for checkpoint in self.checkpoints:
-            checkpoint.resize()
-            self.all_sprites_list.add(checkpoint)
-            self.all_sprites_list.update()
+        def T():
+            for checkpoint in self.checkpoints:
+                checkpoint.resize(x, y, oldwinx, oldwiny)
+                #self.all_sprites_list.add(checkpoint)
+                self.all_sprites_list.update()
+        Thread(target=T).start()
         self.start_finish.resize(x, y, oldwinx, oldwiny)
 
 

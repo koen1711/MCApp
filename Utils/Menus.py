@@ -224,9 +224,9 @@ class ChooseCar:
             pygame_gui.elements.UIWindow.set_position(btn, (newx, newy))
 
             # loop through all the buttons in the window
-            for btn in self.manager.elements:
+            for btn in self.manager.get_root_container().elements:
                 if btn.container == self.uiwindow:
-                    self.resize(btn, x, y, oldwinx, oldwiny)
+                    self.resize_btn(btn, x, y, oldwinx, oldwiny)
 
 
     def resize_btn(self, btn, x, y, oldwinx, oldwiny):

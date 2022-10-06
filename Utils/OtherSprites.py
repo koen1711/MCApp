@@ -99,35 +99,31 @@ class Checkpoint(pygame.sprite.Sprite):
         self.start_mask = pygame.mask.from_surface(self.image)
 
         self.start_mask = pygame.mask.from_threshold(self.image,(255,255,255),(1,1,1))
-    def resize(self):
-        surx, sury = self.sur.get_size()
+    def resize(self, x, y, curwindowx, curwindowy):
+        # calculate the division reguired to create {width}/800 and {height}/600
+        # calculate the position of the image
+        
+        x = (self.x / curwindowx) * x
+        y = (self.y / curwindowy) * y
+        x2 = (self.x2 / curwindowx) * x
+        y2 = (self.y2 / curwindowy) * y
 
-        x = self.x
-        y = self.y
-        x2 = self.x2
-        y2 = self.y2
+        print(x, y, x2, y2)
 
-        x = (x / 800) * surx
-        y = (y / 600) * sury
-        x2 = (x2 / 800) * surx
-        y2 = (y2 / 600) * sury
 
-        right_numberx = abs(x2 - x)
-        right_numbery = abs(y2 - y)
-
-        # calculate the size of the image
-
-        self.image = pygame.transform.scale(self.image, (right_numberx, right_numbery))
         self.rect.x = x
         self.rect.y = y
 
+        right_numberx = x2 - x
+        right_numbery = y2 - y
+        right_numbery = abs(right_numbery)
+        right_numberx = abs(right_numberx)
+
+        self.image = pygame.transform.scale(self.image, (right_numberx, right_numbery))
         self.start_mask = pygame.mask.from_surface(self.image)
 
-        #self.x = x
-        #self.y = y
-        #self.x2 = x2
-        #self.y2 = y2
-
+        
+        
 
 class HiglightedCheckpoint(pygame.sprite.Sprite):
     def __init__(self, x, y, x2, y2, angle, sur):
@@ -142,7 +138,6 @@ class HiglightedCheckpoint(pygame.sprite.Sprite):
         self.image = None
         self.image = pygame.image.load("hcheckpoint.png")
         self.image = pygame.transform.rotozoom(self.image, angle, 0.5)
-        self.image = pygame.transform.rotozoom(self.image, 90, 0.5)
         surx, sury = sur.get_size()
 
         # calculate the position with the calculations 416/800 and 536/600
@@ -179,31 +174,21 @@ class HiglightedCheckpoint(pygame.sprite.Sprite):
         self.start_mask = pygame.mask.from_surface(self.image)
 
         self.start_mask = pygame.mask.from_threshold(self.image,(255,255,255),(1,1,1))
-    def resize(self):
-        surx, sury = self.sur.get_size()
-
-        x = self.x
-        y = self.y
-        x2 = self.x2
-        y2 = self.y2
-
-        x = (x / 800) * surx
-        y = (y / 600) * sury
-        x2 = (x2 / 800) * surx
-        y2 = (y2 / 600) * sury
-
-        right_numberx = abs(x2 - x)
-        right_numbery = abs(y2 - y)
+    def resize(self, x, y, curwindowx, curwindowy):
+        # calculate the division reguired to create {width}/800 and {height}/600
+        # calculate the position of the image
+        width, height = self.rect.size
+        productw = width / curwindowx
+        producth = height / curwindowy
+        self.image = pygame.transform.scale(self.image, (x/productw, y/producth))
+        newx = (self.rect.x / curwindowx) * x
+        newy = (self.rect.y / curwindowy) * y
+        self.rect.center = (newx, newy)
+        self.rect.x = newx
+        self.rect.y = newy
 
         # calculate the size of the image
 
-        self.image = pygame.transform.scale(self.image, (right_numberx, right_numbery))
-        self.rect.x = x
-        self.rect.y = y
 
         self.start_mask = pygame.mask.from_surface(self.image)
 
-        #self.x = x
-        #self.y = y
-        #self.x2 = x2
-        #self.y2 = y2

@@ -22,6 +22,7 @@ class Game:
         self.lapsrequired = 3
         self.laps = 1
         self.laptime = []
+        self.otherlapstime = 0
         self.bestlap = 0
         self.bestlaptime = 0
         self.player = None
@@ -52,7 +53,6 @@ class Game:
         
 
     def end_game(self):
-        
         # destroy all sprites
         for sprite in self.all_sprites_list:
             sprite.kill()
@@ -145,11 +145,13 @@ class Game:
             self.finish()
             self.end_game()
         # set best lap
+        self.laptime.append(self.time)
         if self.bestlaptime == 0:
-            self.bestlaptime = self.laptime[-1]
+            self.bestlaptime = abs(self.time - self.otherlapstime)
             self.bestlap = self.laps
-        elif self.laptime[-1] < self.bestlaptime:
-            self.bestlaptime = self.laptime[-1]
+        elif self.laptime[self.laps - 1] < self.bestlaptime:
+            self.bestlaptime = abs(self.time - self.otherlapstime)
             self.bestlap = self.laps
+        self.otherlapstime = self.time
     
 
