@@ -5,7 +5,7 @@
         {
             "normal_bg":"#e8092e",
             "hovered_bg":"#79e810",
-            "disabled_bg":"#a010e8",
+            "disabled_bg":"#646d70",
             "selected_bg":"#e89910",
             "dark_bg":"#1ad6bd",
             "normal_text":"#f2f5f3",
@@ -185,7 +185,7 @@
         {
             "normal_bg":"#ff7300",
             "hovered_bg":"#ff00d4",
-            "disabled_bg":"#a010e8",
+            "disabled_bg":"#646d70",
             "selected_bg":"#e89910",
             "dark_bg":"#050505",
             "normal_text":"#f2f5f3",
@@ -275,7 +275,7 @@
         {
             "normal_bg":"#243dff",
             "hovered_bg":"#0cf0e4",
-            "disabled_bg":"#a010e8",
+            "disabled_bg":"#646d70",
             "selected_bg":"#e89910",
             "dark_bg":"#1ad6bd",
             "normal_text":"#f2f5f3",
@@ -365,7 +365,7 @@
         {
             "normal_bg":"#e8092e",
             "hovered_bg":"#a82f3d",
-            "disabled_bg":"#a010e8",
+            "disabled_bg":"#646d70",
             "selected_bg":"#e89910",
             "dark_bg":"#1ad6bd",
             "normal_text":"#f2f5f3",
@@ -455,7 +455,7 @@
         {
             "normal_bg":"#0cf01b",
             "hovered_bg":"#f0e40c",
-            "disabled_bg":"#a010e8",
+            "disabled_bg":"#646d70",
             "selected_bg":"#e89910",
             "dark_bg":"#1ad6bd",
             "normal_text":"#f2f5f3",

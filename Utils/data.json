@@ -1,79 +1,96 @@
 {
     "cars": {
         "1": {
-            "Year": "",
+            "Year": "1950",
             "unlocked": true,
             "track": "track1"
         },
         "2": {
-            "Year": "",
+            "Year": "1955",
             "unlocked": false,
             "track": "track1"
         },
         "3": {
-            "Year": "",
+            "Year": "1960",
             "unlocked": false,
-            "track": "track2"
+            "track": "track1"
         },
         "4": {
-            "Year": "",
+            "Year": "1965",
             "unlocked": false,
             "track": "track2"
         },
         "5": {
-            "Year": "",
+            "Year": "1970",
             "unlocked": false,
-            "track": "track3"
+            "track": "track2"
         },
         "6": {
-            "Year": "",
+            "Year": "1975",
             "unlocked": false,
-            "track": "track3"
+            "track": "track2"
         },
         "7": {
-            "Year": "",
+            "Year": "1980",
             "unlocked": false,
             "track": "track3"
         },
         "8": {
-            "Year": "",
+            "Year": "1985",
             "unlocked": false,
             "track": "track3"
         },
         "9": {
-            "Year": "",
+            "Year": "1990",
             "unlocked": false,
             "track": "track3"
         },
         "10": {
-            "Year": "",
+            "Year": "1995",
             "unlocked": false,
-            "track": "track3"
+            "track": "track4"
         },
         "11": {
-            "Year": "",
+            "Year": "2000",
             "unlocked": false,
-            "track": "track3"
+            "track": "track4"
         },
         "12": {
-            "Year": "",
+            "Year": "2005",
             "unlocked": false,
-            "track": "track3"
+            "track": "track4"
         },
         "13": {
-            "Year": "",
+            "Year": "2010",
             "unlocked": false,
-            "track": "track3"
+            "track": "track5"
         },
         "14": {
-            "Year": "",
+            "Year": "2015",
             "unlocked": false,
-            "track": "track3"
+            "track": "track5"
         },
         "15": {
-            "Year": "",
+            "Year": "2020",
             "unlocked": false,
-            "track": "track3"
+            "track": "track5"
+        }
+    },
+    "tracks": {
+        "track1": {
+            "time_required_to_pass": 240
+        },
+        "track2": {
+            "time_required_to_pass": 230
+        },
+        "track3": {
+            "time_required_to_pass": 220
+        },
+        "track4": {
+            "time_required_to_pass": 210
+        },
+        "track5": {
+            "time_required_to_pass": 200
         }
     }
 }

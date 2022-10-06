@@ -1,6 +1,6 @@
 import math
-from turtle import back
 import pygame
+import time
 
 class CarSprite( pygame.sprite.Sprite ):
     """ Car Sprite with basic acceleration, turning, braking and reverse """
@@ -39,9 +39,14 @@ class CarSprite( pygame.sprite.Sprite ):
         self.speed     = 0    
         self.velocity  = pygame.math.Vector2( 0, 0 )
         self.position  = pygame.math.Vector2( x, y )
+        self.OutOfTrack = False
+        self.timer = 0
         self.scar = cla("Car")
         
         self.mask = pygame.mask.from_threshold(background,(1,1,1, 255),(0,0,0,255))
+        # make another mask for the color: (14, 209, 69, 255)
+        self.mask2 = pygame.mask.from_threshold(background,(14,209,69, 255),(0,0,0,255))
+        
         self.basic_turn()
 
     def basic_turn(self, angle_degrees=180):
@@ -141,7 +146,6 @@ class CarSprite( pygame.sprite.Sprite ):
         else:
             return False
     def reset(self, x, y, angle):
-        print("end game")
         self.rect.center = (x, y)
         self.position = pygame.math.Vector2(x, y)
         self.rect.x = x
@@ -149,11 +153,28 @@ class CarSprite( pygame.sprite.Sprite ):
         self.speed = 0
         self.velocity = pygame.math.Vector2(0, 0)
         self.heading = 0
-        print(angle)
         self.basic_turn(angle)
         self.update()
 
-
+    def out_of_track(self, game):
+        
+        if self.OutOfTrack == False:
+            # start the timer
+            self.OutOfTrack = True
+            self.timer = time.time()
+        # check if the timer is over 3 seconds, if so respawn
+        
+        if time.time() - self.timer > 3:
+            game.respawn()
+            self.OutOfTrack = False
+    def return_to_track(self):
+        if self.timer != 0:
+            self.OutOfTrack = False
+            delta = time.time() - self.timer
+            self.timer = 0
+            return delta
+        else:
+            return 0
         
 
 

@@ -4,10 +4,11 @@ import pygame
 
 
 class Handler:
-    def __init__(self):
+    def __init__(self,cc):
         self.hit_last_time = False
+        self.cc = cc
     def EventHandler(self, pygame_gui, event, curgame, play_btn, back_btn, reverse_btn, text, gameui, loading_screen, x, y, window_surface, background, manager, all_sprites_list, is_running, mm):
-        
+        cc = self.cc
         if event.type == pygame.QUIT:
                 is_running = False
             
@@ -16,18 +17,21 @@ class Handler:
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == play_btn:
                 loading_screen = LoadingScreen(manager, window_surface)
-                window = loading_screen.uiwindow
-                curgame = Game(pygame, pygame_gui, all_sprites_list, background, manager, play_btn, window_surface, 1)
-                background = curgame.bg
-                # create track
+                cc.appear()
                 
-
-
-                gameui  = GameUI(manager, window_surface)
-                text = gameui.engine_status_text
-                reverse_btn = gameui.reverse_btn
                 
-            if event.ui_element == back_btn:
+            
+            if event.ui_element == cc.back_btn:
+                cc.previous_car()
+
+            elif event.ui_element == cc.next_btn:
+                cc.next_car()
+            
+            elif event.ui_element == cc.select_btn:
+                cc.select_car()
+                cc.disappear()
+            
+            elif event.ui_element == back_btn:
                 play_btn = curgame.end_game()
                 curgame = None
                 background = pygame.transform.scale(pygame.image.load("background.png"), (x, y))
@@ -42,7 +46,7 @@ class Handler:
                 gameui = None
                 text = None
                 reverse_btn = None
-            if event.ui_element == reverse_btn:
+            elif event.ui_element == reverse_btn:
                 if gameui is not None:
                     curgame.player.reverse()
                     if curgame.player.reversing:

@@ -1,9 +1,10 @@
 from .Track import Track
 from threading import Thread
 from pygame_gui.core import ObjectID
-
+import json
 from .AllCars import number_to_class
 from .CarSprite import CarSprite
+import pygame_gui
 
 class Game:
     def __init__(self, pygame, pygame_gui, all_sprites_list, background, manager, play_btn, window_surface, carnumber):
@@ -29,7 +30,12 @@ class Game:
         self.start_game()
     def start_game(self): 
         x, y = self.window_surface.get_size()
-        img = self.pygame.transform.scale(self.pygame.image.load("circuit.png"), (x, y))
+        # get the track required from the data.json 
+        with open("Utils/data.json", "r") as f:
+            data = json.load(f)
+            track = data["cars"][f"{self.carnumber}"]["track"]
+
+        img = self.pygame.transform.scale(self.pygame.image.load(f"Tracks/{track}.png"), (x, y))
         self.bg = img
         self.background.blit(img, (0, 0))
         self.play_btn.kill()
@@ -46,7 +52,6 @@ class Game:
         
 
     def end_game(self):
-        return
         
         # destroy all sprites
         for sprite in self.all_sprites_list:
@@ -78,13 +83,35 @@ class Game:
             
             x = self.track.start_finish.rect.center[0]
             y = self.track.start_finish.rect.center[1]
-            print("respawn")
-            print(self.track.start_finish.angle)
             self.player.reset(x, y, self.track.start_finish.angle)
         else:
             x = self.track.lap.checkpoints_hit[-1].rect.center[0]
             y = self.track.lap.checkpoints_hit[-1].rect.center[1]
             self.player.reset(x, y, self.track.lap.checkpoints_hit[-1].angle)
+    def finish(self):
+        # make modal with results
+        modal = pygame_gui.elements.UIWindow(relative_rect=self.pygame.Rect((250, 275), (300, 50)), manager=self.manager, window_display_title="Results", object_id=ObjectID(class_id='@modal', object_id='@modal'))
+        pygame_gui.elements.UILabel(relative_rect=self.pygame.Rect((0, 0), (300, 50)), text=f"Best Lap: {self.bestlaptime}", manager=self.manager, container=modal)
+        pygame_gui.elements.UILabel(relative_rect=self.pygame.Rect((0, 50), (300, 50)), text=f"Total Time: {self.time}", manager=self.manager, container=modal)
+        pygame_gui.elements.UILabel(relative_rect=self.pygame.Rect((0, 100), (300, 50)), text=f"Laps: {self.laps}", manager=self.manager, container=modal)
+        
+        # check if the player has gotten the required time to unlock the next car
+        with open("Utils/data.json", "r") as f:
+            data = json.load(f)
+            time_required = data["track"][f"{data['cars'][f'{self.carnumber}']['track']}"]["time_required_to_pass"] / self.player.max_speed
+            if self.time < time_required:
+                data["cars"][f"{self.carnumber + 1}"]["unlocked"] = True
+                with open("Utils/data.json", "w") as f:
+                    json.dump(data, f, indent=4)
+                # make a text_label to tell the player that they have unlocked the next car
+                pygame_gui.elements.UILabel(relative_rect=self.pygame.Rect((0, 150), (300, 50)), text="You have unlocked the next car!", manager=self.manager, container=modal)
+            else:
+                # make text saying that the player has not unlocked the next car
+                pygame_gui.elements.UILabel(relative_rect=self.pygame.Rect((0, 150), (300, 50)), text="You have not unlocked the next car :(", manager=self.manager, container=modal)
+        self.manager.get_root_container().elements.append(modal)
+        self.pygame.display.update()
+        self.game_ended = True
+
     def handle_event(self, keys):
         pygame = self.pygame
         player = self.player
@@ -115,6 +142,14 @@ class Game:
     def laps_increase(self):
         self.laps += 1
         if self.laps == self.lapsrequired:
+            self.finish()
             self.end_game()
+        # set best lap
+        if self.bestlaptime == 0:
+            self.bestlaptime = self.laptime[-1]
+            self.bestlap = self.laps
+        elif self.laptime[-1] < self.bestlaptime:
+            self.bestlaptime = self.laptime[-1]
+            self.bestlap = self.laps
     
 

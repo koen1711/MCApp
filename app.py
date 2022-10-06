@@ -32,8 +32,6 @@ clock = pygame.time.Clock()
 is_running = True
 
 curgame = None
-
-
 reverse_btn = None
 text = None
 gameui = None
@@ -42,8 +40,7 @@ timer = None
 timer_text = None
 window = None
 cc = ChooseCar(manager, window_surface)
-cc.appear()
-e = Handler()
+e = Handler(cc)
 
 
 
@@ -100,6 +97,8 @@ while is_running:
         else:
             mm.resize(play_btn, x, y, curwindowx, curwindowy)
             mm.resize(back_btn, x, y, curwindowx, curwindowy)
+        if cc is not None:
+            cc.resize(x, y, curwindowx, curwindowy)
         curwindowx = x
         curwindowy = y
     
@@ -118,6 +117,19 @@ while is_running:
                     
                     #curgame = None
                     #is_running = False
+                # (14,209,69, 255)
+                if background.get_at(curgame.player.rect.center) == (88, 88, 88, 255):
+                    # respawn player
+                    curgame.respawn()
+                if background.get_at(curgame.player.rect.center) == (14,209,69, 255):
+                    
+                    curgame.player.out_of_track(curgame)
+                else:
+                    time_spent_out_of_track = curgame.player.return_to_track()
+                    if time_spent_out_of_track > 1:
+                        time_delta += 10
+                        Thread(gameui.make_time_penalty(10)).start()
+                        penalty_text = gameui.penalty_text
             except:
                 pass
             if curgame is not None:
@@ -131,6 +143,22 @@ while is_running:
                     gameui.engine_status_text.kill()
                     curgame = None
                     gameui = None
+
+    # check if player choose a car
+    if cc is not None:
+        if cc.car_chosen:
+            curgame = Game(pygame, pygame_gui, all_sprites_list, background, manager, play_btn, window_surface, cc.number)
+            background = curgame.bg
+            # create track
+            
+
+
+            gameui  = GameUI(manager, window_surface)
+            text = gameui.engine_status_text
+            reverse_btn = gameui.reverse_btn
+            cc = None
+
+            
                     
     manager.draw_ui(window_surface)
 
